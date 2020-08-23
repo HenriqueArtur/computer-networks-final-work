@@ -1,0 +1,28 @@
+{
+  "name": "computer-networks-final-work",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon --experimental-modules server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PassaroRoxo/computer-networks-final-work.git"
+  },
+  "author": "Henrique Artur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PassaroRoxo/computer-networks-final-work/issues"
+  },
+  "homepage": "https://github.com/PassaroRoxo/computer-networks-final-work#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
