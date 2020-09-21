@@ -4,8 +4,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nome legal no futuro</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-        <style>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+        <!-- <style>
             #screen {
                 border: 10px solid #ccc;
                 image-rendering: pixelated;
@@ -15,10 +24,19 @@
                 height: 400px;
             }
         </style>
-        <script src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io/socket.io.js"></script> -->
     </head>
     <body>
-        <canvas id="screen" width="10" height="10"></canvas>
+        <div class="my-card">
+            <div class="symbol">
+                <i class="material-icons small">adb</i>
+            </div>
+            <p class="number">
+                -4
+            </p>
+        </div>
+
+        <!-- <canvas id="screen" width="10" height="10"></canvas>
 
         <script type="module">
             import createKeyboardListener from './keyboardListener.js'
@@ -77,6 +95,6 @@
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
                 game.removeFruit(command)
             })
-        </script>
+        </script> -->
     </body>
 </html>
