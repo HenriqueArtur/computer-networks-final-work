@@ -15,7 +15,7 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
         
-        <!-- <script src="/socket.io/socket.io.js"></script> -->
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
         <div class="oponent-hand">
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="my-hand">
+        <div id="my-hand">
             <div class="my-card front">
                 <div class="symbol">
                     <i class="material-icons small">ac_unit</i>
@@ -120,15 +120,15 @@
             </div>
         </div>
 
-        <!-- <canvas id="screen" width="10" height="10"></canvas>
+        <!-- <canvas id="screen" width="10" height="10"></canvas> -->
 
         <script type="module">
-            import createKeyboardListener from './keyboardListener.js'
+            // import createKeyboardListener from './keyboardListener.js'
             import createGame from './game.js'
             import renderScreen from './renderScreen.js'
 
             const game = createGame()
-            const keyboardListener = createKeyboardListener(document)
+            // const keyboardListener = createKeyboardListener(document)
 
             const socket = io()
 
@@ -136,49 +136,31 @@
                 const playerId = socket.id
                 console.log(`Player connecterd on Client with id: ${playerId}`)
 
-                const screen = document.getElementById('screen')
+                // const screen = document.getElementById('screen')
                 renderScreen(screen, game, requestAnimationFrame, playerId)
             })
 
-            socket.on('setup', (state) => {
-                const playerId = socket.id
-                game.setState(state)
+            // socket.on('setup', (state) => {
+            //     const playerId = socket.id
+            //     game.setState(state)
 
-                keyboardListener.registerPlayerId(playerId)
-                keyboardListener.subscribe(game.movePlayer)
-                keyboardListener.subscribe((command) => {
-                    socket.emit(command.type, command)
-                })
-            })
+            //     keyboardListener.registerPlayerId(playerId)
+            //     keyboardListener.subscribe(game.movePlayer)
+            //     keyboardListener.subscribe((command) => {
+            //         socket.emit(command.type, command)
+            //     })
+            // })
 
-            socket.on('add-player', (command) => {
-                console.log(`Receiving ${command.type} -> ${command.playerId}`)
-                game.addPlayer(command)
-            })
+            // socket.on('add-player', (command) => {
+            //     console.log(`Receiving ${command.type} -> ${command.playerId}`)
+            //     game.addPlayer(command)
+            // })
 
-            socket.on('remove-player', (command) => {
-                console.log(`Receiving ${command.type} -> ${command.playerId}`)
-                game.removePlayer(command)
-            })
+            // socket.on('remove-player', (command) => {
+            //     console.log(`Receiving ${command.type} -> ${command.playerId}`)
+            //     game.removePlayer(command)
+            // })
 
-            socket.on('move-player', (command) => {
-                console.log(`Receiving ${command.type} -> ${command.playerId}`)
-
-                const playerId = socket.id
-                if(playerId !== command.playerId) {
-                    game.movePlayer(command)
-                }
-            })
-
-            socket.on('add-fruit', (command) => {
-                console.log(`Receiving ${command.type} -> ${command.playerId}`)
-                game.addFruit(command)
-            })
-
-            socket.on('remove-fruit', (command) => {
-                console.log(`Receiving ${command.type} -> ${command.playerId}`)
-                game.removeFruit(command)
-            })
-        </script> -->
+        </script>
     </body>
 </html>

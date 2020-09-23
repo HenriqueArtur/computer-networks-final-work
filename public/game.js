@@ -1,19 +1,18 @@
+import {deck} from './deck.js'
+
 export default function createGame() {
     const state = {
         players: {},
-        fruits: {},
-        screen: {
-            width: 9,
-            height: 9
-        },
+        table: 0,
+        lastCard: [],
+        gameDeck: {},
     }
 
     const observers = []
 
     function start() {
-        const frequency = 2000
-
-        // setInterval(addFruit, frequency)
+        state.gameDeck = shuffle(deck)
+        // console.log(gameDeck)
     }
 
     function subscribe(observerFunction) {
@@ -31,21 +30,21 @@ export default function createGame() {
     }
 
     function addPlayer(command) {
+        if(state.players.length >= 2) return
         const playerId = command.playerId
-        const playerX = 'playerX' in command ? command.playerX : Math.floor(Math.random() * state.screen.width)
-        const playerY = 'playerY' in command ? command.playerY : Math.floor(Math.random() * state.screen.height)
-
+        
         state.players[playerId] = {
-            x: playerX,
-            y: playerY
+            hand: []
         }
 
         notifyAll({
             type: 'add-player',
             playerId: playerId,
-            playerX: playerX,
-            playerY: playerY
         })
+
+        for(let i = 1; i <= 5; i++) {
+            drawCard(playerId)
+        }
     }
 
     function removePlayer(commnad) {
@@ -59,85 +58,50 @@ export default function createGame() {
         })
     }
     
-    function addFruit(command) {
-        const fruitId = command ? command.fruitId : Math.floor(Math.random() * 10000000)
-        const fruitX = command ? command.fruitX : Math.floor(Math.random() * (state.screen.width + 1))
-        const fruitY = command ? command.fruitY : Math.floor(Math.random() * (state.screen.height + 1))
+    function playCard(playerId) {}
 
-        state.fruits[fruitId] = {
-            x: fruitX,
-            y: fruitY
+    function drawCard(playerId) {
+        const card = state.gameDeck.shift()
+        const playerHand = state.players[playerId].hand
+        playerHand.push(card)
+
+        state.players[playerId] = {
+            hand: playerHand
         }
 
         notifyAll({
-            type: 'add-fruit',
-            fruitId: fruitId,
-            fruitX: fruitX,
-            fruitY: fruitY
-        })
-    }
-
-    function removeFruit(commnad) {
-        const fruitId = commnad.fruitId
-
-        delete state.fruits[fruitId]
-
-        notifyAll({
-            type: 'remove-fruit',
-            fruitId: fruitId,
+            type: 'draw-card',
+            playerId: playerId,
+            handSize: playerHand.length
         })
     }
     
-    function movePlayer(command) {
-        notifyAll(command)
-        
-        const acceptedMoves = {
-            ArrowUp(player) {                            
-                player.y = Math.max(player.y - 1, 0)
-            },
-            ArrowDown(player) {
-                player.y = Math.min(player.y + 1, state.screen.height)
-            },
-            ArrowLeft(player) {
-                player.x = Math.max(player.x - 1, 0)
-            },
-            ArrowRight(player) {
-                player.x = Math.min(player.x + 1, state.screen.width)
-            }
-        }
+    function tableSum(command) {}
 
-        const keyPressed = command.keyPressed
-        const playerId = command.playerId
-        const player = state.players[command.playerId]
-        const moveFunction = acceptedMoves[keyPressed]
+    function resetGame(command) {}
 
-        if(player && moveFunction) {
-            moveFunction(player)
-            checkForFruitCollision(playerId)
-        }
-    }
-
-    function checkForFruitCollision(playerId) {
-        const player = state.players[playerId]
-
-        for(const fruitId in state.fruits) {
-            const fruit = state.fruits[fruitId]
-
-            if(player.x === fruit.x && player.y === fruit.y) {
-                removeFruit({fruitId: fruitId})
-            }
-        }
-    }
+    function finishGame(command) {}
 
     return {
+        subscribe,
+        setState,
+        state,
         addPlayer,
         removePlayer,
-        movePlayer,
-        addFruit,
-        removeFruit,
-        state,
-        setState,
-        subscribe,
         start,
+        drawCard,
     }
+}
+
+function shuffle(array) {
+    var ctr = array.length, temp, index;
+
+    while (ctr > 0) {
+        index = Math.floor(Math.random() * ctr);
+        ctr--;
+        temp = array[ctr];
+        array[ctr] = array[index];
+        array[index] = temp;
+    }
+    return array;
 }

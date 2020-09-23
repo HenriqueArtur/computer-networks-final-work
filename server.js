@@ -24,18 +24,11 @@ sockets.on('connection', (socket) => {
 
     game.addPlayer({playerId: playerId})
 
-    socket.emit('setup', game.state)
+    // socket.emit('setup', game.state)
 
     socket.on('disconnect', () => {
         game.removePlayer({playerId: playerId})
         console.log(`> Player disconnected: ${playerId}`)
-    })
-
-    socket.on('move-player', (command) => {
-        command.playerId = playerId
-        command.type = 'move-player'
-
-        game.movePlayer(command)
     })
 })
 
