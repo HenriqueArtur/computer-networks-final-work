@@ -24,7 +24,10 @@ sockets.on('connection', (socket) => {
 
     game.addPlayer({playerId: playerId})
 
-    socket.emit('setup', game.state)
+    socket.emit('setup', () => {
+        game.state
+        // game.state.att = false
+    })
 
     socket.on('disconnect', () => {
         game.removePlayer({playerId: playerId})

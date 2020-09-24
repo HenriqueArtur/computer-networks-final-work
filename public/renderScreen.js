@@ -1,12 +1,10 @@
 export default function renderScreen(game, requestAnimationFrame, currentPlayerId) {
     const currentPlayer = game.state.players[currentPlayerId]
-
     if(currentPlayer) {
         const playerHandDiv = document.getElementById('my-hand')
         let playerCards = ''
         
         currentPlayer.hand.forEach( card => {
-            console.log(card)
             playerCards += `
             <div class="my-card front">
                 <div class="symbol">
@@ -21,8 +19,4 @@ export default function renderScreen(game, requestAnimationFrame, currentPlayerI
 
         playerHandDiv.innerHTML = playerCards
     }
-
-    requestAnimationFrame(() => {
-        renderScreen(game, requestAnimationFrame, currentPlayerId)
-    })
 }
