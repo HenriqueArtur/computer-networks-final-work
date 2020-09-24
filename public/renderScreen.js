@@ -1,31 +1,28 @@
-export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId) {
-    const playerHand = document.getElementById('my-hand')
-    playerHand.innerHTML = 'AEEE'
+export default function renderScreen(game, requestAnimationFrame, currentPlayerId) {
+    const currentPlayer = game.state.players[currentPlayerId]
 
-    // const context = screen.getContext('2d')
-    // context.fillStyle = 'white'
-    // context.clearRect(0, 0, 10, 10)
-    
-    // for (const playerId in game.state.players) {
-    //     const player = game.state.players[playerId]
-    //     context.fillStyle = 'black'
-    //     context.fillRect(player.x, player.y, 1, 1)
-    // }
+    if(currentPlayer) {
+        const playerHandDiv = document.getElementById('my-hand')
+        let playerCards = ''
+        
+        currentPlayer.hand.forEach( card => {
+            console.log(card)
+            playerCards += `
+            <div class="my-card front">
+                <div class="symbol">
+                    <i class="material-icons small">${card.symbol}</i>
+                </div>
+                <p class="number">
+                    ${card.value}
+                </p>
+            </div>
+            `
+        })
 
-    // for (const fruitId in game.state.fruits) {
-    //     const fruit = game.state.fruits[fruitId]
-    //     context.fillStyle = 'green'
-    //     context.fillRect(fruit.x, fruit.y, 1, 1)
-    // }
+        playerHandDiv.innerHTML = playerCards
+    }
 
-    // const currentPlayer = game.state.players[currentPlayerId]
-
-    // if(currentPlayer) {
-    //     context.fillStyle = '#F0DB4F'
-    //     context.fillRect(currentPlayer.x, currentPlayer.y, 1, 1)
-    // }
-
-    // requestAnimationFrame(() => {
-    //     renderScreen(screen, game, requestAnimationFrame, currentPlayerId)
-    // })
+    requestAnimationFrame(() => {
+        renderScreen(game, requestAnimationFrame, currentPlayerId)
+    })
 }
