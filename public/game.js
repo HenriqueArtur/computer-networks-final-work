@@ -6,14 +6,12 @@ export default function createGame() {
         table: 0,
         lastCard: [],
         gameDeck: [],
-        att: true,
     }
 
     const observers = []
 
     function start() {
         state.gameDeck = shuffle(deck)
-        // console.log(state)
     }
 
     function subscribe(observerFunction) {
@@ -31,7 +29,6 @@ export default function createGame() {
     }
 
     function addPlayer(command) {
-        if(state.players.length >= 2) return
         const playerId = command.playerId
         
         state.players[playerId] = {
@@ -64,7 +61,6 @@ export default function createGame() {
     function drawCard(playerId) {
         let playerHand = state.players[playerId].hand
         let card = state.gameDeck.shift()
-        console.log(card)
 
         playerHand.push(card)
 
@@ -77,7 +73,6 @@ export default function createGame() {
             playerId: playerId,
             hand: playerHand,
             handSize: playerHand.length,
-            att: true,
         })
     }
     
@@ -86,10 +81,6 @@ export default function createGame() {
     function resetGame(command) {}
 
     function finishGame(command) {}
-
-    function refreshScreen(command) {
-        
-    }
 
     return {
         subscribe,

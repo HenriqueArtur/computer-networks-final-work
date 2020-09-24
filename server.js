@@ -19,20 +19,23 @@ game.subscribe((command) => {
 })
 
 sockets.on('connection', (socket) => {
-    const playerId = socket.id
-    console.log(`> Player connected on Server with id: ${playerId}`)
+    let playersCount = Object.keys(game.state.players).length
+    if(playersCount <=2 ) {
+        const playerId = socket.id
 
-    game.addPlayer({playerId: playerId})
-
-    socket.emit('setup', () => {
-        game.state
-        // game.state.att = false
-    })
-
-    socket.on('disconnect', () => {
-        game.removePlayer({playerId: playerId})
-        console.log(`> Player disconnected: ${playerId}`)
-    })
+        console.log(`> Player connected on Server with id: ${playerId}`)
+    
+        game.addPlayer({playerId: playerId})
+    
+        socket.emit('setup', game.state)
+    
+        socket.on('disconnect', () => {
+            game.removePlayer({playerId: playerId})
+            console.log(`> Player disconnected: ${playerId}`)
+        })
+    } else {
+        console.log(`> Someone try entry the room, but game room is full!`)
+    }
 })
 
 server.listen(3000, () => {

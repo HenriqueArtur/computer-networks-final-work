@@ -20,33 +20,7 @@
         <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
-        <div class="oponent-hand">
-            <div class="my-card verse">
-                <div class="back">
-                    <i class="material-icons large">dashboard</i>
-                </div>
-            </div>
-            <div class="my-card verse">
-                <div class="back">
-                    <i class="material-icons large">dashboard</i>
-                </div>
-            </div>
-            <div class="my-card verse">
-                <div class="back">
-                    <i class="material-icons large">dashboard</i>
-                </div>
-            </div>
-            <div class="my-card verse">
-                <div class="back">
-                    <i class="material-icons large">dashboard</i>
-                </div>
-            </div>
-            <div class="my-card verse">
-                <div class="back">
-                    <i class="material-icons large">dashboard</i>
-                </div>
-            </div>
-        </div>
+        <div id="oponent-hand"></div>
 
         <div class="table">
             <div class="container">
@@ -127,7 +101,9 @@
 
                 if(playerId == command.playerId) {
                     game.state.players[playerId].hand = command.hand
-                    renderScreen(game, requestAnimationFrame, playerId)
+                    renderScreen(game, requestAnimationFrame, playerId, command.handSize)
+                } else {
+                    renderScreen(game, requestAnimationFrame, playerId, command.handSize)
                 }
             })
         </script>
