@@ -90,10 +90,10 @@
                 game.addPlayer(command)
             })
 
-            // socket.on('remove-player', (command) => {
-            //     console.log(`Receiving ${command.type} -> ${command.playerId}`)
-            //     game.removePlayer(command)
-            // })
+            socket.on('remove-player', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.removePlayer(command)
+            })
 
             socket.on('draw-card', (command) => {
                 const playerId = socket.id
