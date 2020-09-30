@@ -56,12 +56,12 @@
         <div id="my-hand"></div>
 
         <script type="module">
-            // import createKeyboardListener from './keyboardListener.js'
+            import createClickListener from './clickListener.js'
             import createGame from './game.js'
             import renderScreen from './renderScreen.js'
 
             const game = createGame()
-            // const keyboardListener = createKeyboardListener(document)
+            const clickListener = createClickListener(document)
 
             const socket = io()
 
@@ -73,16 +73,12 @@
             socket.on('setup', (state) => {
                 const playerId = socket.id
                 game.setState(state)
-                
-                // if(game.state.att){
-                //     renderScreen(game, requestAnimationFrame, playerId)
-                // }
 
-                // keyboardListener.registerPlayerId(playerId)
-                // keyboardListener.subscribe(game.movePlayer)
-                // keyboardListener.subscribe((command) => {
-                    //     socket.emit(command.type, command)
-                    // })
+                clickListener.registerPlayerId(playerId)
+                clickListener.subscribe(game.playCard)
+                clickListener.subscribe((command) => {
+                        socket.emit(command.type, command)
+                    })
                 })
                 
             socket.on('add-player', (command) => {
@@ -95,15 +91,22 @@
                 game.removePlayer(command)
             })
 
+            socket.on('play-card', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.playCard(command)
+                // const handSize = state.players[command.playerId].hand.length
+                // renderScreen(game, playerId, handSize)
+            })
+
             socket.on('draw-card', (command) => {
                 const playerId = socket.id
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
 
                 if(playerId == command.playerId) {
                     game.state.players[playerId].hand = command.hand
-                    renderScreen(game, requestAnimationFrame, playerId, command.handSize)
+                    renderScreen(game, playerId, command.handSize)
                 } else {
-                    renderScreen(game, requestAnimationFrame, playerId, command.handSize)
+                    renderScreen(game, playerId, command.handSize)
                 }
             })
         </script>

@@ -33,6 +33,13 @@ sockets.on('connection', (socket) => {
             game.removePlayer({playerId: playerId})
             console.log(`> Player disconnected: ${playerId}`)
         })
+
+        socket.on('play-card', (command) => {
+            command.playerId = playerId
+            command.type = 'play-card'
+    
+            game.playCard(command)
+        })
     } else {
         console.log(`> Someone try entry the room, but game room is full!`)
     }
