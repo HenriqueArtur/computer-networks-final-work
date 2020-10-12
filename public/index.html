@@ -79,6 +79,7 @@
                 clickListener.subscribe((command) => {
                         socket.emit(command.type, command)
                     })
+                renderScreen(game, playerId)
                 })
                 
             socket.on('add-player', (command) => {
@@ -104,9 +105,9 @@
 
                 if(playerId == command.playerId) {
                     game.state.players[playerId].hand = command.hand
-                    renderScreen(game, playerId, command.handSize)
+                    renderScreen(game, playerId)
                 } else {
-                    renderScreen(game, playerId, command.handSize)
+                    renderScreen(game, playerId)
                 }
             })
         </script>
