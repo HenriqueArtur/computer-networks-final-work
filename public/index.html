@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col s6">
                         <div class="table-info valign-wrapper center-align">
-                            <h2 class="sum">13</h2>
+                            <h2 class="sum" id="sum"></h2>
                         </div>
                     </div>
                     <div class="col s3">
@@ -90,13 +90,17 @@
             socket.on('remove-player', (command) => {
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
                 game.removePlayer(command)
+
+                const playerId = socket.id
+                renderScreen(game, playerId)
             })
 
             socket.on('play-card', (command) => {
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
                 game.playCard(command)
-                // const handSize = state.players[command.playerId].hand.length
-                // renderScreen(game, playerId, handSize)
+
+                const playerId = socket.id
+                renderScreen(game, playerId)
             })
 
             socket.on('draw-card', (command) => {

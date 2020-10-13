@@ -1,4 +1,5 @@
 export default function renderScreen(game, currentPlayerId) {
+    const table = document.getElementById('sum')
     const oponentHandDiv = document.getElementById('oponent-hand')
     const players = Object.entries(game.state.players)
 
@@ -34,4 +35,5 @@ export default function renderScreen(game, currentPlayerId) {
         }
     })
 
+    table.innerHTML = game.state.table
 }
