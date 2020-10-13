@@ -66,6 +66,7 @@ export default function createGame() {
             if((card.value == cardNumber) && (card.symbol == cardSymbol)) {
                 let card = hand.splice(index, 1)
                 state.lastCard = card[0]
+                state.table += card[0]['value']
                 return
             }
         })
@@ -91,8 +92,6 @@ export default function createGame() {
         })
     }
     
-    function tableSum(command) {}
-
     function resetGame(command) {}
 
     function finishGame(command) {}
