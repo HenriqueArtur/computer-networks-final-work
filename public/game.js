@@ -4,7 +4,7 @@ export default function createGame() {
     const state = {
         players: {},
         table: 0,
-        lastCard: [],
+        lastCard: {},
         gameDeck: [],
     }
 
@@ -57,8 +57,6 @@ export default function createGame() {
     }
     
     function playCard(command) {
-        notifyAll(command)
-
         const player = state.players[command.playerId]
         const cardSymbol = command.cardSymbol
         const cardNumber = command.cardNumber
@@ -66,10 +64,13 @@ export default function createGame() {
         
         hand.forEach((card, index) => {
             if((card.value == cardNumber) && (card.symbol == cardSymbol)) {
-                hand.splice(index, 1)
+                let card = hand.splice(index, 1)
+                state.lastCard = card[0]
                 return
             }
         })
+
+        notifyAll(command)
     }
 
     function drawCard(playerId) {
