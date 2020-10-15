@@ -12,6 +12,8 @@ export default function createGame() {
 
     function start() {
         state.gameDeck = shuffle(deck)
+
+        state.lastCard = state.gameDeck.shift()
     }
 
     function subscribe(observerFunction) {
@@ -61,17 +63,22 @@ export default function createGame() {
         const cardSymbol = command.cardSymbol
         const cardNumber = command.cardNumber
         var hand = player.hand
+
+        const lastCard = state.lastCard
         
         hand.forEach((card, index) => {
-            if((card.value == cardNumber) && (card.symbol == cardSymbol)) {
+            if(
+                (card.value == cardNumber && card.symbol == cardSymbol)
+                && (card.value == lastCard['value'] || card.symbol == lastCard['symbol'])
+                ) {
                 let card = hand.splice(index, 1)
                 state.lastCard = card[0]
                 state.table += card[0]['value']
+                notifyAll(command)
                 return
             }
         })
 
-        notifyAll(command)
     }
 
     function drawCard(playerId) {
