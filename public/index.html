@@ -74,6 +74,11 @@
             socket.on('add-player', (command) => {
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
                 game.addPlayer(command)
+                
+                const playerId = socket.id
+                if(playerId != command.playerId) {
+                    renderScreen(game, playerId)
+                }
             })
 
             socket.on('remove-player', (command) => {
@@ -93,15 +98,11 @@
             })
 
             socket.on('draw-card', (command) => {
-                const playerId = socket.id
                 console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.drawCard(command)
 
-                if(playerId == command.playerId) {
-                    game.state.players[playerId].hand = command.hand
-                    renderScreen(game, playerId)
-                } else {
-                    renderScreen(game, playerId)
-                }
+                const playerId = socket.id
+                renderScreen(game, playerId)
             })
         </script>
     </body>

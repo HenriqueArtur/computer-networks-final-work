@@ -40,6 +40,13 @@ sockets.on('connection', (socket) => {
     
             game.playCard(command)
         })
+
+        socket.on('draw-card', (command) => {
+            command.playerId = playerId
+            command.type = 'draw-card'
+    
+            game.drawCard(command)
+        })
     } else {
         console.log(`> Someone try entry the room, but game room is full!`)
     }

@@ -13,7 +13,7 @@ export default function renderScreen(game, currentPlayerId) {
             const playerHandDiv = document.getElementById('my-hand')
             let playerCards = ''
             const currentPlayer = game.state.players[player[0]]
-            
+
             currentPlayer.hand.forEach( card => {
                 playerCards += `
                 <div class="my-card front">

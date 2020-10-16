@@ -19,6 +19,7 @@ export default function createClickListener(document){
     }
     
     document.addEventListener('click', handleClick)
+    document.addEventListener('click', handleDraw)
 
     function handleClick(event) {
         var cardTarget = event.target
@@ -40,6 +41,24 @@ export default function createClickListener(document){
             playerId: state.playerId,
             cardSymbol,
             cardNumber,
+        }
+
+        notifyAll(command)
+    }
+
+    function handleDraw(event) {
+        var cardTarget = event.target
+
+        if (cardTarget.nodeName == "I") {
+            cardTarget = cardTarget.parentElement.parentElement
+        }
+
+        if(cardTarget.className != 'my-card verse') {return}
+        if(cardTarget.parentElement.id != 'deck') {return}
+
+        const command = {
+            type: 'draw-card',
+            playerId: state.playerId,
         }
 
         notifyAll(command)
