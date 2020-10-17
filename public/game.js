@@ -85,7 +85,13 @@ export default function createGame() {
                 return
             }
         })
-
+        const players = Object.entries(state.players)
+        players.forEach((player) => {
+            console.log(player[0])
+            if(player[0] != command.playerId) {
+                state.currentPlayer = player[0]
+            }
+        })
     }
 
     function drawCard(command) {
