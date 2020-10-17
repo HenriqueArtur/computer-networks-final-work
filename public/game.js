@@ -3,6 +3,7 @@ import {deck} from './deck.js'
 export default function createGame() {
     const state = {
         players: {},
+        currentPlayer: [],
         table: 0,
         lastCard: {},
         gameDeck: [],
@@ -35,10 +36,15 @@ export default function createGame() {
         state.players[playerId] = {
             hand: []
         }
+        const qntPlayers = Object.keys(state.players).length
+        if(qntPlayers == 1) {
+            state.currentPlayer = playerId
+        }
 
         notifyAll({
             type: 'add-player',
             playerId: playerId,
+            currentPlayer: state.currentPlayer
         })
 
         for(let i = 1; i <= 5; i++) {
@@ -58,6 +64,8 @@ export default function createGame() {
     }
     
     function playCard(command) {
+        if(state.currentPlayer != command.playerId) {return}
+
         const player = state.players[command.playerId]
         const cardSymbol = command.cardSymbol
         const cardNumber = command.cardNumber
@@ -81,6 +89,8 @@ export default function createGame() {
     }
 
     function drawCard(command) {
+        if(state.currentPlayer != command.playerId) {return}
+
         const playerId = command.playerId
         let playerHand = state.players[playerId].hand
         let card = state.gameDeck.shift()
