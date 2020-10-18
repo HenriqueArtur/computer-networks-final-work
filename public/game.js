@@ -4,6 +4,7 @@ export default function createGame() {
     const state = {
         players: {},
         currentPlayer: [],
+        winnerPlayer: '',
         table: 0,
         lastCard: {},
         gameDeck: [],
@@ -56,6 +57,7 @@ export default function createGame() {
         const playerId = commnad.playerId
 
         delete state.players[playerId]
+        resetGame()
 
         notifyAll({
             type: 'remove-player',
@@ -64,8 +66,6 @@ export default function createGame() {
     }
     
     function playCard(command) {
-        if(state.currentPlayer != command.playerId) {return}
-
         const player = state.players[command.playerId]
         const cardSymbol = command.cardSymbol
         const cardNumber = command.cardNumber
@@ -79,15 +79,18 @@ export default function createGame() {
                 && (card.value == lastCard['value'] || card.symbol == lastCard['symbol'])
                 ) {
                 let card = hand.splice(index, 1)
+                const result = state.table + card[0]['value']
+                if(result > 10 || result < -5 || hand.length-1 <= 0) {
+                    finishGame(command.playerId)
+                }
                 state.lastCard = card[0]
-                state.table += card[0]['value']
+                state.table = result
                 notifyAll(command)
                 return
             }
         })
         const players = Object.entries(state.players)
         players.forEach((player) => {
-            console.log(player[0])
             if(player[0] != command.playerId) {
                 state.currentPlayer = player[0]
             }
@@ -95,8 +98,6 @@ export default function createGame() {
     }
 
     function drawCard(command) {
-        if(state.currentPlayer != command.playerId) {return}
-
         const playerId = command.playerId
         let playerHand = state.players[playerId].hand
         let card = state.gameDeck.shift()
@@ -113,9 +114,27 @@ export default function createGame() {
         })
     }
     
-    function resetGame(command) {}
+    function resetGame() {
+        state.table = 0
+        state.lastCard = {}
+        state.gameDeck = []
 
-    function finishGame(command) {}
+        start()
+
+        const players = Object.keys(state.players)
+        state.currentPlayer = players[0]
+    }
+
+    function finishGame(playerId) {
+        state.winnerPlayer = playerId
+
+        const command = {
+            type: 'finish-game',
+            winner: playerId
+        }
+
+        notifyAll(command)
+    }
 
     function openHand(command) {
         const playerId = command.playerId

@@ -84,3 +84,25 @@
     position: absolute;
     margin: auto;
 }
+
+.result {
+    position: absolute;
+    height: 100vh;
+    z-index: 500;
+}
+
+.box {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: aliceblue;
+    margin: 0 auto;
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}

@@ -47,6 +47,13 @@ sockets.on('connection', (socket) => {
     
             game.drawCard(command)
         })
+
+        socket.on('finish-game', (command) => {
+            command.type = 'finish-game'
+            command.winner = playerId
+    
+            console.log(`> Winner Player: ${winner}`)
+        })
     } else {
         console.log(`> Someone try entry the room, but game room is full!`)
     }
